@@ -96,8 +96,8 @@ class AdversarialAutoEncoder(pl.LightningModule):
     ) -> torch.Tensor:
         x_var = 0.5
         y_var = 0.05
-        x = torch.randn(batch_size, self.hidden_size // 2).mul(x_var)
-        y = torch.randn(batch_size, self.hidden_size // 2).mul(y_var)
+        x = torch.randn(batch_size, self.hidden_size // 2).mul(x_var).to(self.device)
+        y = torch.randn(batch_size, self.hidden_size // 2).mul(y_var).to(self.device)
 
         shift = 1.4
         if labels is None:
@@ -105,8 +105,8 @@ class AdversarialAutoEncoder(pl.LightningModule):
 
         r = labels.type(torch.float32).mul(2 * pi / self.num_labels)
 
-        sin_r = r.sin().view(-1, 1)
-        cos_r = r.cos().view(-1, 1)
+        sin_r = r.sin().view(-1, 1).to(self.device)
+        cos_r = r.cos().view(-1, 1).to(self.device)
 
         new_x = x.mul(cos_r) - y.mul(sin_r)
         new_y = x.mul(sin_r) + y.mul(cos_r)
