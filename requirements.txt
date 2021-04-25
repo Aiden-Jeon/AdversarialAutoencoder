@@ -1,0 +1,6 @@
+torch
+torchvision
+torchaudio
+pytorch-lightning
+jupyter
+matplotlib
