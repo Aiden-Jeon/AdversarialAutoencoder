@@ -81,7 +81,7 @@ class AdversarialAutoEncoder(pl.LightningModule):
 
     def sample_swiss_roll(self, batch_size: int, labels: torch.Tensor) -> torch.Tensor:
         labels = labels.view(-1, 1)
-        uni = torch.FloatTensor(batch_size, 1).uniform_(0, 1)
+        uni = torch.FloatTensor(batch_size, 1).uniform_(0, 1).to(self.device)
         uni = uni.add(labels).mul(1 / 10)
 
         r = uni.sqrt().mul(3)
@@ -202,8 +202,8 @@ class AdversarialAutoEncoder(pl.LightningModule):
         for output in outputs:
             latent += [output["latent"]]
             label += [output["label"]]
-        latent = torch.cat(latent).numpy()
-        label = torch.cat(label).numpy()
+        latent = torch.cat(latent).cpu().numpy()
+        label = torch.cat(label).cpu().numpy()
         fig = plot_latent(latent, label)
         fig.savefig("image_at_epoch_{:04d}.png".format(self.current_epoch))
         plt.close()
