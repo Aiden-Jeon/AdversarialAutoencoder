@@ -1,6 +1,7 @@
 from math import pi
 from typing import Tuple, List, Any
 
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import pytorch_lightning as pl
@@ -39,7 +40,7 @@ class AdversarialAutoEncoder(pl.LightningModule):
         num_labels: int = 10,
         sample_latent: str = "swiss_roll",
     ):
-        if sample_latent == "gaussian_mixture" and self.hidden_size % 2 != 0:
+        if sample_latent == "gaussian_mixture" and hidden_size % 2 != 0:
             raise Exception("hidden_size must be a multiple of 2")
         super().__init__()
         encoder_hidden_sizes = get_hidden_sizes(input_size, hidden_size, n_layers)
@@ -205,6 +206,7 @@ class AdversarialAutoEncoder(pl.LightningModule):
         label = torch.cat(label).numpy()
         fig = plot_latent(latent, label)
         fig.savefig("image_at_epoch_{:04d}.png".format(self.current_epoch))
+        plt.close()
 
     def configure_optimizers(self):
         encoder_opt = torch.optim.Adam(self.encoder.parameters(), lr=1e-3)

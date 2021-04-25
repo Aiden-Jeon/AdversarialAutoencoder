@@ -1,6 +1,6 @@
-torch
-torchvision
-torchaudio
-pytorch-lightning
-jupyter
-matplotlib
+pytorch-lightning==1.2.10
+torch==1.8.1
+torchaudio==0.8.1
+torchmetrics==0.2.0
+torchvision==0.9.1
+matplotlib==3.4.1
